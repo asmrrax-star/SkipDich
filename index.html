@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkipDich – Seilspring Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-top">
+    <div class="logo" onclick="showPage('dashboard')" style="cursor:pointer;" title="Zurück zum Dashboard">
+      <span class="logo-text">Skip<span>Dich</span></span>
+    </div>
+    <span class="nav-version">v1.0</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-page="dashboard"    onclick="showPage('dashboard')">Dashboard</button>
+    <button class="nav-tab"        data-page="log"          onclick="showPage('log')">Training</button>
+    <button class="nav-tab"        data-page="history"      onclick="showPage('history')">Verlauf</button>
+    <button class="nav-tab"        data-page="swissskip"    onclick="showPage('swissskip')">Swiss Skip</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page active">
+    <div class="page-header">Dashboard</div>
+
+    <div id="streak-banner" class="streak-banner" style="display:none">
+      <div class="streak-fire">🔥</div>
+      <div>
+        <div class="streak-label">Aktueller Streak</div>
+        <div class="streak-num" id="streak-num">0</div>
+        <div class="streak-text" id="streak-text">Tage in Folge trainiert</div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-label">Trainings</div>
+        <div class="stat-value accent" id="stat-sessions">0</div>
+        <div class="stat-sub">Total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Sprünge gesamt</div>
+        <div class="stat-value" id="stat-jumps">0</div>
+        <div class="stat-sub">Alle Sessions</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Persönlicher Rekord</div>
+        <div class="stat-value accent" id="stat-pr">–</div>
+        <div class="stat-sub">Sprünge / Session</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Minuten total</div>
+        <div class="stat-value" id="stat-minutes">0</div>
+        <div class="stat-sub">Trainingszeit</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-header">
+        <span class="section-title">Sprünge – letzte 10 Sessions</span>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="dashChart" role="img" aria-label="Verlauf der Sprünge in den letzten Sessions">Keine Daten vorhanden.</canvas>
+      </div>
+    </div>
+
+    <div id="last-session-card" class="card card-sm" style="display:none">
+      <div class="section-title" style="margin-bottom:8px">Letztes Training</div>
+      <div id="last-session-info" style="font-size:13px; color:var(--text-muted)"></div>
+    </div>
+  </div>
+
+  <!-- LOG TRAINING -->
+  <div id="page-log" class="page">
+    <div class="page-header">Training erfassen</div>
+    <div class="card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Datum</label>
+          <input type="date" id="inp-date" />
+        </div>
+        <div class="form-group">
+          <label>Dauer (Minuten)</label>
+          <input type="number" id="inp-duration" min="1" max="300" placeholder="z.B. 20" />
+        </div>
+        <div class="form-group">
+          <label>Anzahl Sprünge</label>
+          <input type="number" id="inp-jumps" min="1" placeholder="z.B. 300" />
+        </div>
+        <div class="form-group">
+          <label>Übungstyp</label>
+          <select id="inp-type">
+            <option value="basic">Basic</option>
+            <option value="speed">Speed</option>
+            <option value="freestyle">Freestyle</option>
+            <option value="mixed">Gemischt</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Intensität</label>
+          <select id="inp-intensity">
+            <option value="leicht">Leicht</option>
+            <option value="mittel" selected>Mittel</option>
+            <option value="hart">Hart</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Stimmung</label>
+          <select id="inp-mood">
+            <option value=""> Peak</option>
+            <option value="" selected> Gut</option>
+            <option value=""> Ok</option>
+            <option value=""> Anschiss</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Notizen</label>
+          <textarea id="inp-notes"></textarea>
+        </div>
+      </div>
+      <button class="btn" onclick="saveSession()">Training speichern</button>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="page-history" class="page">
+    <div class="page-header">Verlauf</div>
+    <div class="section-header">
+      <span class="section-title">Alle Trainings</span>
+      <span id="history-count" style="font-size:11px; color:var(--text-dim)"></span>
+    </div>
+    <div id="history-list"></div>
+  </div>
+
+  <!-- SWISS SKIP -->
+  <div id="page-swissskip" class="page">
+    <div class="page-header">Swiss Skip</div>
+    <div class="swissskip-card">
+      <div class="swissskip-logo-wrap">
+        <img
+          src="0x0.png"
+          alt="SwissSkip Logo"
+          onerror="this.style.display='none';"
+        />
+      </div>
+      <div class="swissskip-title">SwissSkip</div>
+      <div class="swissskip-desc">
+        Mein bevorzugter Anbieter für Springseile.<br />
+        Schweizerqualität.
+      </div>
+      <br />
+      <a class="btn-swissskip" href="https://swissskip.ch" target="_blank" rel="noopener">
+        Shop besuchen
+      </a>
+      <div class="divider" style="max-width:200px; margin: 16px auto;"></div>
+      <div class="swissskip-tagline">Leider nicht gesponsert 🇨🇭</div>
+    </div>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
