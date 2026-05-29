@@ -1,4 +1,3 @@
-SkipDich
 SkipDich ist eine WebApp zum Tracken von meinem Seilspring-Training.
 Die Applikation speichert alle Daten lokal im Browser und wurde im Rahmen der Ausbildung als Informatiker EFZ (Applikationsentwicklung) entwickelt für das Modul 245. 
 
