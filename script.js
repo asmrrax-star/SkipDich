@@ -273,7 +273,7 @@ function showPage(name) {
   if (name === 'history')      renderHistory();
 }
 
-// ── Timer ─────────────────────────────────────────────────────────────────────
+// ── Toast fürs Speichern ─────────────────────────────────────────────────────────────────────
 
 let toastTimer;
 function showToast(msg) {
