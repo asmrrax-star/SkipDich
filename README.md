@@ -28,7 +28,9 @@ GitHub Pages (Deployment)
 Projektstruktur
 skipdich/
 ├── index.html
+
 ├── style.css
+
 ├── script.js
 
 
