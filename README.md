@@ -5,6 +5,7 @@ Die Applikation speichert alle Daten lokal im Browser und wurde im Rahmen der Au
 
 Live-Version:
 https://asmrrax-star.github.io/skipdich/
+Falls der Link zur Live-Version nicht funktioniert, bitte auf die lokale Ausführung zurückgreifen. 
 
 ---
 
