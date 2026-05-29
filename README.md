@@ -73,5 +73,6 @@ Ziel war es, eine Applikation zu entwickeln, die gleichzeitig modulrelevant ist 
 ## Autor
 
 Srecko Radisavljevic
-Informatiker EFZ – Applikationsentwicklung
+Informatiker EFZ Applikationsentwicklung
+
 Schweiz
